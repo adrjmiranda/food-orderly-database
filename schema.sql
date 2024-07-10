@@ -18,8 +18,8 @@ CREATE TABLE `users` (
   `first_name` VARCHAR(255) NOT NULL,
   `last_name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) UNIQUE NOT NULL,
-  `street` VARCHAR(255) NOT NULL,
-  `number` VARCHAR(255) NOT NULL,
+  `street` VARCHAR(255),
+  `number` VARCHAR(255),
   `complement` VARCHAR(255),
   `password` VARCHAR(255) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -91,6 +91,16 @@ CREATE TABLE `reviews` (
   `dish_id` INT NOT NULL,
   FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   FOREIGN KEY (`dish_id`) REFERENCES `dishes` (`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `orders` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `amount` INT UNSIGNED NOT NULL,
+  `status` ENUM("production", "sent", "delivered") DEFAULT "production" NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` INT NOT NULL,
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 );
 
 INSERT INTO `categories` (`name`, `image_name`) VALUES ("starters dishes", "starters-dishes"), 
